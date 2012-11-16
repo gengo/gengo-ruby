@@ -14,7 +14,7 @@ describe Gengo do
     @gengo_client = Gengo::API.new({
           :public_key => ENV['GENGO_PUBKEY'],
           :private_key => ENV['GENGO_PRIVKEY'],
-          :api_version => ! ENV['API_VERSION'].nil? ? ENV['API_VERSION'] : '2',
+          :api_version => '2',
           :debug => ENV['DEBUG'] == 'true',
           :sandbox => true
     })
@@ -97,6 +97,8 @@ describe Gengo do
 
     before(:each) do
       resp = @gengo_client.getAccountStats
+      puts 'RESP HERE'
+      puts resp
       @useful_response_body = resp['response']
     end
 
