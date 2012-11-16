@@ -99,7 +99,7 @@ describe Gengo do
       @useful_response_body = resp['response']
     end
 
-    it "should have user_since as a Fixnum greater than 0" do
+    it "should have user_since as a Bignum greater than 0" do
       user_since = @useful_response_body['user_since']
       user_since.should be_an_instance_of(Bignum)
       user_since.should be > 0
