@@ -24,10 +24,10 @@ Question, Comments, Complaints, Praise?
 If you have questions or comments and would like to reach us directly, please feel free to do
 so at the following outlets. We love hearing from developers!
 
-Email: api [at] gengo dot com  
-Twitter: **[@gengo_dev](http://twitter.com/gengo_dev)**  
+Email: api [at] gengo dot com
+Twitter: **[@gengo_dev](http://twitter.com/gengo_dev)**
 
-If you come across any issues, please file them on the **[Github project issue tracker](https://github.com/Gengo/gengo-ruby/issues)**. Thanks!
+If you come across any issues, please file them on the **[Github project issue tracker](https://github.com/gengo/gengo-ruby/issues)**. Thanks!
 
 
 Documentation
