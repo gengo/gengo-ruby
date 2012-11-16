@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 1.9.3
+env:
+  global:
+    - secure: "Jew61k39jNS5T2osoCqDOg/zImRwhbZegpngukI5VkCrkflJaWMjNliVBEBW\nLIVJQdc0Eqk9Qc5xgZzmu6M5mgf4o/65FatvZ+Erm4UVTsbFGgBlRQ3uGRdM\nIsXVpTB+xS1taTQD8uLTRsN6XUwqgJPtzFxrFsIQj/zegPHJBrs="
+    - GENGO_PUBKEY='pubkeyfortests'
