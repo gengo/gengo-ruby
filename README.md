@@ -1,10 +1,10 @@
-[![Build Status](https://secure.travis-ci.org/Gengo/gengo-ruby.png)](http://travis-ci.org/Gengo/gengo-ruby)
+[![Build Status](https://secure.travis-ci.org/gengo/gengo-ruby.png)](http://travis-ci.org/gengo/gengo-ruby)
 Gengo Ruby Library (for the [Gengo API](http://gengo.com/))
 ========================================================================================================
 Translating your tools and products helps people all over the world access them; this is, of course, a
 somewhat tricky problem to solve. **[Gengo](http://gengo.com/)** is a service that offers human-translation
 (which is often a higher quality than machine translation), and an API to manage sending in work and watching
-jobs. This is a ruby interface to make using the API simpler (some would say incredibly easy). 
+jobs. This is a ruby interface to make using the API simpler (some would say incredibly easy).
 
 
 Installation & Requirements
