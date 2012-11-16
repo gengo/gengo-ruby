@@ -102,9 +102,7 @@ describe Gengo do
 
     it "should have user_since as a Fixnum greater than 0" do
       user_since = @useful_response_body['user_since']
-      puts 'user_since class'
-      puts user_since.class
-      user_since.should be_an_instance_of(Fixnum)
+      user_since.should be_an_instance_of(Bignum)
       user_since.should be > 0
     end
 
