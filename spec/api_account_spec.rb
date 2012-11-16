@@ -18,7 +18,6 @@ describe Gengo do
           :debug => ENV['DEBUG'] == 'true',
           :sandbox => true
     })
-    @gengo_client.api_host = 'api.staging.gengo.com'
 
     @my_currency = "USD"
   end
