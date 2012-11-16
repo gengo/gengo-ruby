@@ -1,5 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/gengo/gengo-ruby.png)](http://travis-ci.org/gengo/gengo-ruby)
-Gengo Ruby Library (for the [Gengo API](http://gengo.com/))
+Gengo Ruby Library (for the [Gengo API](http://gengo.com/api/))
 ========================================================================================================
 Translating your tools and products helps people all over the world access them; this is, of course, a
 somewhat tricky problem to solve. **[Gengo](http://gengo.com/)** is a service that offers human-translation
