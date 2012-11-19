@@ -2,7 +2,7 @@ require 'rake'
 
 Gem::Specification.new do |gs|
 	gs.name = "gengo"
-	gs.version = "1.13"
+	gs.version = "0.0.0"
 	gs.authors = [
         "Lloyd Chan",
 		"Ryan McGrath",
@@ -10,7 +10,7 @@ Gem::Specification.new do |gs|
 		"Kim Alhstrom",
 		"Shawn Smith"
     ]
-	gs.date = "2012-10-02"
+	gs.date = "2012-11-19"
 	gs.summary = "A library for interfacing with the Gengo Translation API."
 	gs.description = "Gengo is a service that offers various translation APIs, both machine and high quality human-sourced. The Gengo gem lets you interface with the Gengo REST API (http://gengo.com/services/api/dev-docs/)."
 	gs.email = "api@gengo.com"
