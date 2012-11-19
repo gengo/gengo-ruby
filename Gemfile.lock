@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gengo (1.13)
+    gengo (0.0.0)
       json
       mime-types
       multipart-post
