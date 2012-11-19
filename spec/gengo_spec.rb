@@ -21,7 +21,7 @@ describe Gengo do
                                   :private_key => 'your_private_key',
                                   :sandbox => true,
                                 })
-            @gengo_client.api_host.should eq('api.sandbox.mygengo.com')
+            @gengo_client.api_host.should eq('api.sandbox.gengo.com')
         end
 
         it 'should have the right production url' do
