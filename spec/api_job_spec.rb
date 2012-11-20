@@ -9,8 +9,6 @@ require 'gengo'
 
 describe Gengo do
 
-#  @created_job_id = nil
-
   before(:all) do
 
     @gengo_client = Gengo::API.new({
