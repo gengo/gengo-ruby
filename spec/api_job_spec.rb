@@ -47,6 +47,7 @@ describe Gengo do
 
   describe "getTranslationOrderJobs response" do
     it "should have opstat OK and jobs_available" do
+      sleep 10
       resp = @gengo_client.getTranslationOrderJobs({:order_id => $order_id})
       resp.should be_an_instance_of(Hash)
       resp['opstat'].should eq('ok')
