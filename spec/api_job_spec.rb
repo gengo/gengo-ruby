@@ -79,8 +79,62 @@ describe Gengo do
   describe "getTranslationJobComments response" do
     it "should have opstat OK and correct thread" do
       resp = @gengo_client.getTranslationJobComments({:id => $created_job_id})
+      resp.should be_an_instance_of(Hash)
+      resp['opstat'].should eq('ok')
       response_body = resp['response']
-      response_body['thread'][0]['body']
+      response_body['thread'][0]['body'].should eq('Test comment')
+    end
+  end
+
+  describe "determineTranslationCost response" do
+    it "should have opstat OK and jobs in response" do
+      resp = @gengo_client.determineTranslationCost({
+        :jobs => {
+          :job_1 => {
+            :type => "file",
+            :slug => "Hallo",
+            :lc_src => "en",
+            :lc_tgt => "ja",
+            :tier => "standard",
+            :file_path => "./examples/testfiles/test_file1.txt"
+          },
+          :job_2 => {
+            :type => "file",
+            :slug => "Nice",
+            :lc_src => "en",
+            :lc_tgt => "ja",
+            :tier => "standard",
+            :file_path => "./examples/testfiles/test_file2.txt"
+          }
+        },
+        :is_upload => true
+      })
+      resp.should be_an_instance_of(Hash)
+      resp['opstat'].should eq('ok')
+      response_body = resp['response']
+      $cost_assessment_jobs = response_body['jobs']
+    end
+  end
+
+  describe "postTranslationJobs for file jobs response" do
+    it "should have opstat OK, order_id, credits_used, and job_count in response" do
+      multiple_jobs = {}
+      $cost_assessment_jobs.each_pair do |k, v|
+        multiple_jobs[k] = {
+          :type => "file",
+          :identifier => v['identifier'],
+          :comment => "Test comment for %s" % k,
+          :force => 1,
+        }
+      end
+      resp = @gengo_client.postTranslationJobs({:jobs => multiple_jobs})
+      resp['opstat'].should eq('ok')
+      response_body = resp['response']
+      response_body['order_id'].should be_an_instance_of(String)
+      response_body['order_id'].to_i.should be > 0
+      response_body['job_count'].should eq(2)
+      response_body['credits_used'].should be_an_instance_of(String)
+      response_body['credits_used'].to_f.should be > 0
     end
   end
 end
