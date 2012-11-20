@@ -12,60 +12,60 @@ require 'mime/types'
 
 module Gengo
 
-	# The only real class that ever needs to be instantiated.
-	class API
-		attr_accessor :api_host
-		attr_accessor :debug
-		attr_accessor :client_info
+  # The only real class that ever needs to be instantiated.
+  class API
+    attr_accessor :api_host
+    attr_accessor :debug
+    attr_accessor :client_info
 
-		# Creates a new API handler to shuttle calls/jobs/etc over to the Gengo translation API.
-		#
-		# Options:
-		# <tt>opts</tt> - A hash containing the api key, the api secret key, the API version (defaults to 1), whether to use
-		# the sandbox API, and an optional custom user agent to send.
-		def initialize(opts)
-			# Consider this an example of the object you need to pass.
-			@opts = {
-				:public_key => '',
-				:private_key => '',
-				:api_version => '1.1',
-				:sandbox => false,
-				:user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; http://gengo.com/;",
-				:debug => false,
-			}.merge(opts)
+    # Creates a new API handler to shuttle calls/jobs/etc over to the Gengo translation API.
+    #
+    # Options:
+    # <tt>opts</tt> - A hash containing the api key, the api secret key, the API version (defaults to 1), whether to use
+    # the sandbox API, and an optional custom user agent to send.
+    def initialize(opts)
+      # Consider this an example of the object you need to pass.
+      @opts = {
+        :public_key => '',
+        :private_key => '',
+        :api_version => '1.1',
+        :sandbox => false,
+        :user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; http://gengo.com/;",
+        :debug => false,
+      }.merge(opts)
 
-			# Let's go ahead and separate these out, for clarity...
-			@debug = @opts[:debug]
-			@api_host = (@opts[:sandbox] == true ? Gengo::Config::SANDBOX_API_HOST : Gengo::Config::API_HOST)
+      # Let's go ahead and separate these out, for clarity...
+      @debug = @opts[:debug]
+      @api_host = (@opts[:sandbox] == true ? Gengo::Config::SANDBOX_API_HOST : Gengo::Config::API_HOST)
 
-			# More of a public "check this" kind of object.
-			@client_info = {"VERSION" => Gengo::Config::VERSION}
-		end
+      # More of a public "check this" kind of object.
+      @client_info = {"VERSION" => Gengo::Config::VERSION}
+    end
 
         # Use CGI escape to escape a string
-		def urlencode(string)
-			CGI::escape(string)
-		end
+    def urlencode(string)
+      CGI::escape(string)
+    end
 
-		# Creates an HMAC::SHA1 signature, signing the timestamp with the private key.
-		def signature_of(ts)
-			OpenSSL::HMAC.hexdigest 'sha1', @opts[:private_key], ts
-		end
+    # Creates an HMAC::SHA1 signature, signing the timestamp with the private key.
+    def signature_of(ts)
+      OpenSSL::HMAC.hexdigest 'sha1', @opts[:private_key], ts
+    end
 
-		# The "GET" method; handles requesting basic data sets from Gengo and converting
-		# the response to a Ruby hash/object.
-		#
-		# Options:
-		# <tt>endpoint</tt> - String/URL to request data from.
-		# <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
-		def get_from_gengo(endpoint, params = {})
-			# Do this small check here...
+    # The "GET" method; handles requesting basic data sets from Gengo and converting
+    # the response to a Ruby hash/object.
+    #
+    # Options:
+    # <tt>endpoint</tt> - String/URL to request data from.
+    # <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
+    def get_from_gengo(endpoint, params = {})
+      # Do this small check here...
             is_delete = params.delete(:is_delete)
             is_download_file = params.delete(:is_download)
 
             # The first part of the object we're going to encode and use in our request to Gengo. The signing process
-			# is a little annoying at the moment, so bear with us...
-			query = params.reduce({}) {|hash_thus_far, (param_key, param_value)|
+      # is a little annoying at the moment, so bear with us...
+      query = params.reduce({}) {|hash_thus_far, (param_key, param_value)|
               hash_thus_far.merge(
                   param_key.to_sym => param_value.to_s
               )
@@ -74,8 +74,8 @@ module Gengo
             query[:api_key] = @opts[:public_key]
             query[:ts] = Time.now.gmtime.to_i.to_s
 
-			endpoint << "?api_sig=" + signature_of(query[:ts])
-			endpoint << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
+      endpoint << "?api_sig=" + signature_of(query[:ts])
+      endpoint << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
 
             uri = "/v#{@opts[:api_version]}/" + endpoint
             headers = {
@@ -89,14 +89,14 @@ module Gengo
                 req = Net::HTTP::Get.new(uri, headers)
             end
 
-			http = Net::HTTP.start(@api_host, 80)
+      http = Net::HTTP.start(@api_host, 80)
             if @debug
               http.set_debug_output($stdout)
             end
             http.read_timeout = 5*60
             resp = http.request(req)
 
-			if is_download_file.nil?
+      if is_download_file.nil?
               json = JSON.parse(resp.body)
               if json['opstat'] != 'ok'
                   raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
@@ -108,76 +108,76 @@ module Gengo
               return resp.body
             end
 
-		end
+    end
 
-		# The "POST" method; handles shuttling up encoded job data to Gengo
-		# for translation and such. Somewhat similar to the above methods, but depending on the scenario
-		# can get some strange exceptions, so we're gonna keep them fairly separate for the time being. Consider
-		# for a merger down the road...
-		#
-		# Options:
-		# <tt>endpoint</tt> - String/URL to post data to.
-		# <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
-		def send_to_gengo(endpoint, params = {})
+    # The "POST" method; handles shuttling up encoded job data to Gengo
+    # for translation and such. Somewhat similar to the above methods, but depending on the scenario
+    # can get some strange exceptions, so we're gonna keep them fairly separate for the time being. Consider
+    # for a merger down the road...
+    #
+    # Options:
+    # <tt>endpoint</tt> - String/URL to post data to.
+    # <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
+    def send_to_gengo(endpoint, params = {})
 
-		  # Check if this is a put
+      # Check if this is a put
       is_put = params.delete(:is_put)
 
-			query = {
-				:api_key => @opts[:public_key],
-				:data => params.to_json.gsub('"', '\"'),
-				:ts => Time.now.gmtime.to_i.to_s
-			}
+      query = {
+        :api_key => @opts[:public_key],
+        :data => params.to_json.gsub('"', '\"'),
+        :ts => Time.now.gmtime.to_i.to_s
+      }
 
-			url = URI.parse("http://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
-			http = Net::HTTP.new(url.host, url.port)
+      url = URI.parse("http://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
+      http = Net::HTTP.new(url.host, url.port)
             http.read_timeout = 5*60
-			if is_put
-			  request = Net::HTTP::Put.new(url.path)
-		  else
-			  request = Net::HTTP::Post.new(url.path)
-		  end
+      if is_put
+        request = Net::HTTP::Put.new(url.path)
+      else
+        request = Net::HTTP::Post.new(url.path)
+      end
 
-			request.add_field('Accept', 'application/json')
-			request.add_field('User-Agent', @opts[:user_agent])
+      request.add_field('Accept', 'application/json')
+      request.add_field('User-Agent', @opts[:user_agent])
 
-			request.content_type = 'application/x-www-form-urlencoded'
-			request.body = {
-				"api_sig" => signature_of(query[:ts]),
-				"api_key" => urlencode(@opts[:public_key]),
-				"data" => urlencode(params.to_json.gsub('\\', '\\\\')),
-				"ts" => query[:ts].to_i.to_s
-			}.map { |k, v| "#{k}=#{v}" }.flatten.join('&')
+      request.content_type = 'application/x-www-form-urlencoded'
+      request.body = {
+        "api_sig" => signature_of(query[:ts]),
+        "api_key" => urlencode(@opts[:public_key]),
+        "data" => urlencode(params.to_json.gsub('\\', '\\\\')),
+        "ts" => query[:ts].to_i.to_s
+      }.map { |k, v| "#{k}=#{v}" }.flatten.join('&')
 
-			if @debug
-				http.set_debug_output($stdout)
-			end
+      if @debug
+        http.set_debug_output($stdout)
+      end
 
-			resp = http.request(request)
+      resp = http.request(request)
 
-			case resp
-				when Net::HTTPSuccess, Net::HTTPRedirection
-					json = JSON.parse(resp.body)
+      case resp
+        when Net::HTTPSuccess, Net::HTTPRedirection
+          json = JSON.parse(resp.body)
 
-					if json['opstat'] != 'ok'
-						raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
-					end
+          if json['opstat'] != 'ok'
+            raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
+          end
 
-					# Return it if there are no problems, nice...
-					json
-				else
-					resp.error!
-			end
-		end
+          # Return it if there are no problems, nice...
+          json
+        else
+          resp.error!
+      end
+    end
 
-		# The "UPLOAD" method; handles sending a file to the quote method
-		#
-		# Options:
-		# <tt>endpoint</tt> - String/URL to post data to.
-		# <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
-		def upload_to_gengo(endpoint, params = {})
+    # The "UPLOAD" method; handles sending a file to the quote method
+    #
+    # Options:
+    # <tt>endpoint</tt> - String/URL to post data to.
+    # <tt>params</tt> - Data necessary for request (keys, etc). Generally taken care of by the requesting instance.
+    def upload_to_gengo(endpoint, params = {})
 
-		  # prepare the file_hash and append file_key to each job payload
+      # prepare the file_hash and append file_key to each job payload
           files_hash = params[:jobs].each_value.reduce({}) do |hash_thus_far, job_values|
             if job_values[:file_path]
                 job_mime_type = MIME::Types.type_for(job_values[:file_path]).first.content_type
@@ -195,35 +195,35 @@ module Gengo
 
           call_timestamp = Time.now.gmtime.to_i.to_s
 
-			the_hash = files_hash.merge({
-				"api_sig" => signature_of(call_timestamp),
-				"api_key" => @opts[:public_key],
-				"data" =>params.to_json.gsub('\\', '\\\\'),
-				"ts" => call_timestamp
-			})
+      the_hash = files_hash.merge({
+        "api_sig" => signature_of(call_timestamp),
+        "api_key" => @opts[:public_key],
+        "data" =>params.to_json.gsub('\\', '\\\\'),
+        "ts" => call_timestamp
+      })
 
-			request = Net::HTTP::Post::Multipart.new(url.path, the_hash, {'Accept' => 'application/json', 'User-Agent' => @opts[:user_agent] })
+      request = Net::HTTP::Post::Multipart.new(url.path, the_hash, {'Accept' => 'application/json', 'User-Agent' => @opts[:user_agent] })
 
-			if @debug
-				http.set_debug_output($stdout)
-			end
+      if @debug
+        http.set_debug_output($stdout)
+      end
 
-			resp = http.request(request)
+      resp = http.request(request)
 
-			case resp
-				when Net::HTTPSuccess, Net::HTTPRedirection
-					json = JSON.parse(resp.body)
+      case resp
+        when Net::HTTPSuccess, Net::HTTPRedirection
+          json = JSON.parse(resp.body)
 
-					if json['opstat'] != 'ok'
-						raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
-					end
+          if json['opstat'] != 'ok'
+            raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
+          end
 
-					# Return it if there are no problems, nice...
-					json
-				else
-					resp.error!
-			end
-		end
+          # Return it if there are no problems, nice...
+          json
+        else
+          resp.error!
+      end
+    end
 
         # Returns a Ruby-hash of the stats for the current account. No arguments required!
         #

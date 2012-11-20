@@ -3,13 +3,13 @@ require 'gengo-ruby/api_handler'
 require 'gengo-ruby/gengo_exception'
 
 module Gengo
-	# Store global config objects here - e.g, urls, etc.
-	module Config
-		# API url endpoints; replace the version at function call time to
-		# allow for function-by-function differences in versioning.
-		API_HOST = 'api.gengo.com'
-		SANDBOX_API_HOST = 'api.sandbox.gengo.com'
+  # Store global config objects here - e.g, urls, etc.
+  module Config
+    # API url endpoints; replace the version at function call time to
+    # allow for function-by-function differences in versioning.
+    API_HOST = 'api.gengo.com'
+    SANDBOX_API_HOST = 'api.sandbox.gengo.com'
 
-		VERSION = '0.0.0'
-	end
+    VERSION = '0.0.0'
+  end
 end
