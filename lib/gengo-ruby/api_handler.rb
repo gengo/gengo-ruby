@@ -28,7 +28,7 @@ module Gengo
       @opts = {
         :public_key => '',
         :private_key => '',
-        :api_version => '1.1',
+        :api_version => '2',
         :sandbox => false,
         :user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; http://gengo.com/;",
         :debug => false,

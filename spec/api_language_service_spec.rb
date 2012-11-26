@@ -14,7 +14,6 @@ describe Gengo do
     @gengo_client = Gengo::API.new({
           :public_key => ENV['GENGO_PUBKEY'],
           :private_key => ENV['GENGO_PRIVKEY'],
-          :api_version => '2',
           :debug => ENV['DEBUG'] == 'true',
           :sandbox => true
     })
