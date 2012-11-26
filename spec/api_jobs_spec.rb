@@ -61,6 +61,7 @@ describe Gengo do
   describe "getTranslationJob reponse" do
     it "should have opstat OK and correct body_src" do
       resp = @gengo_client.getTranslationJob({:id => $created_job_id})
+      resp['opstat'].should eq('ok')
       response_body = resp['response']
       body_src = response_body['job']['body_src']
       body_src.should eq('hello, world')
