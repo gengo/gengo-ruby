@@ -1,5 +1,3 @@
-require 'rake'
-
 Gem::Specification.new do |gs|
     gs.name = "gengo"
     gs.version = "0.0.2"
@@ -12,7 +10,7 @@ Gem::Specification.new do |gs|
     gs.description = "Gengo is a service that offers various translation APIs, both machine and high quality human-sourced. The Gengo gem lets you interface with the Gengo REST API (http://developers.gengo.com/).Note: previous version of this library can be found at https://rubygems.org/gems/mygengo. All further updates will be made here."
     gs.email = "api@gengo.com"
     gs.homepage = "http://developers.gengo.com"
-    gs.files = FileList['lib/**/*.rb', 'licenses/*', 'bin/*', '[A-Z]*', 'test/**/*'].to_a
+    gs.files = Dir['lib/**/*.rb', 'licenses/*', 'bin/*', '[A-Z]*', 'test/**/*'].to_a
     gs.has_rdoc = true
 
     gs.add_dependency('json')
