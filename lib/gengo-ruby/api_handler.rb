@@ -377,6 +377,17 @@ module Gengo
           self.get_from_gengo('translate/job/:id/preview'.gsub(':id', params.delete(:id).to_s), params)
         end
 
+        # Deletes an order, cancelling all available jobs.
+        #
+        # This method is EXPERIMENTAL
+        #
+        # Options:
+        # <tt>id</tt> - The ID of the order you want to delete.
+        def deleteTranslationOrder(params = {})
+                params[:is_delete] = true
+          self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
+        end
+
         # Deletes a job.
         #
         # Options:
