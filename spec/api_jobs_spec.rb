@@ -64,6 +64,8 @@ describe Gengo do
       response_body = resp['response']
       body_src = response_body['job']['body_src']
       body_src.should eq('hello, world')
+      order_id = response_body['job']['order_id']
+      order_id.should eq($order_id)
     end
   end
 
