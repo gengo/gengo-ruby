@@ -384,7 +384,7 @@ module Gengo
         # Options:
         # <tt>id</tt> - The ID of the order you want to delete.
         def deleteTranslationOrder(params = {})
-                params[:is_delete] = true
+          params[:is_delete] = true
           self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
         end
 

@@ -66,6 +66,7 @@ describe Gengo do
             :getTranslationJobPreviewImage,
             :deleteTranslationJob,
             :deleteTranslationJobs,
+            :deleteTranslationOrder,
             :getServiceLanguagePairs,
             :getServiceLanguages,
             :getGlossaryList,
