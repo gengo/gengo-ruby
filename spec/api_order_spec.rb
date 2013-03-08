@@ -12,10 +12,10 @@ describe Gengo do
   before(:all) do
 
     @gengo_client = Gengo::API.new({
-          :public_key => 'VAyOZuW5iy]YdGgOT^J8LP%%r[#OmdAMd+dU*-GFl5GY7PBddN7e~cehmZ4OdQib',
-          :private_key => 'c*N#{euN-W^SMsry_}3HYqpo0__KqKXTND)%veuO$}b$d=#goWPH2*MLDn=q@uTD',
+          :public_key => ENV['GENGO_PUBKEY'],
+          :private_key => ENV['GENGO_PRIVKEY'],
           :debug => ENV['DEBUG'] == 'true',
-          :sandbox => false
+          :sandbox => true
     })
 
   end
@@ -50,7 +50,7 @@ describe Gengo do
       resp = @gengo_client.getTranslationOrderJobs({:order_id => $order_id})
 
       $count = resp['response']['order']['jobs_available'].length
-      $count.to_i.should == 0      
+      $count.to_i.should == 0
     end
   end
 end
