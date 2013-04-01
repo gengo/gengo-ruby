@@ -315,7 +315,7 @@ module Gengo
           self.get_from_gengo('translate/order/:order_id'.gsub(':order_id', params.delete(:order_id).to_s), params)
         end
 
-        # Mirrors the bulk Translation call, but just returns an estimated cost.
+        # Left for backwards compatibility
         def determineTranslationCost(params = {})
           is_upload = params.delete(:is_upload)
 
@@ -324,6 +324,11 @@ module Gengo
           else
             self.send_to_gengo('translate/service/quote', params)
           end
+        end
+
+        # Mirrors the bulk Translation call, but just returns an estimated cost.
+        def getTranslationQuote(params = {})
+          determineTranslationCost(params = {})
         end
 
         # Post a comment for a translator or Gengo on a job.
@@ -384,7 +389,7 @@ module Gengo
         # Options:
         # <tt>id</tt> - The ID of the order you want to delete.
         def deleteTranslationOrder(params = {})
-                params[:is_delete] = true
+          params[:is_delete] = true
           self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
         end
 
