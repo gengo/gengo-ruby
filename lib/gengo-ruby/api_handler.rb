@@ -239,16 +239,6 @@ module Gengo
       self.get_from_gengo('account/balance', params)
     end
 
-    # Posts a translation job over to Gengo, returns a response indicating whether the submission was
-    # successful or not. Param list is quite expansive here, pay attention...
-    #
-    # Options:
-    # <tt>job</tt> - A job is a hash of data describing what you want translated. See the examples included for
-    # more information on what this should be. (type/slug/body_src/lc_src/lc_tgt/tier/auto_approve/comment/callback_url/custom_data)
-    def postTranslationJob(params = {})
-      self.send_to_gengo('translate/job', params)
-    end
-
     # Much like the above, but takes a hash titled "jobs" that is multiple jobs, each with their own unique key.
     #
     # Options:
