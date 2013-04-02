@@ -8,6 +8,4 @@ gengo = Gengo::API.new({
 })
 
 # Posts a comment to job #42.
-puts gengo.postTranslationJob({:id => 42, :comment => {
-	:body => "I love lamp!"
-})
+puts gengo.postTranslationJobComment({:id => 42, :body => "I love lamp!"})
