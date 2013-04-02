@@ -1,8 +1,8 @@
 require 'gengo'
 
 gengo = Gengo::API.new({
-  :public_key => 'SVYn-x_18HCpY5aKzEYqOIUrs[qVnW^^hgAl(jR0cNNQ]$YrPjP-)PRZHudSWUgQ',
-  :private_key => 'Hv1yc$SS7xT)]iPeoFG#yC~[WB9LJrh14M]KyH}70PqoBG81]yCN1KVFB7$@e^A}'
+  :public_key => 'public_key',
+  :private_key => 'private_key'
 })
 
 
