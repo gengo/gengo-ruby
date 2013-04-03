@@ -334,7 +334,6 @@ module Gengo
     def getTranslationJobComments(params = {})
       self.get_from_gengo('translate/job/:id/comments'.gsub(':id', params.delete(:id).to_s), params)
     end
->>>>>>> gengo/master
 
     # Returns the feedback you've submitted for a given job.
     #
