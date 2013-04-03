@@ -12,6 +12,7 @@ Gem::Specification.new do |gs|
     gs.homepage = "http://developers.gengo.com"
     gs.files = Dir['lib/**/*.rb', 'licenses/*', 'bin/*', '[A-Z]*', 'test/**/*'].to_a
     gs.has_rdoc = true
+    gs.license = 'New BSD'
 
     gs.add_dependency('json')
     gs.add_dependency('multipart-post')
