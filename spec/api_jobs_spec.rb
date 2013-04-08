@@ -88,9 +88,9 @@ describe Gengo do
     end
   end
 
-  describe "determineTranslationCost response" do
+  describe "getTranslationQuote response" do
     it "should have opstat OK and jobs in response" do
-      resp = @gengo_client.determineTranslationCost({
+      resp = @gengo_client.getTranslationQuote({
         :jobs => {
           :job_1 => {
             :type => "file",
