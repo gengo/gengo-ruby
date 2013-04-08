@@ -315,7 +315,7 @@ module Gengo
 
     # Mirrors the bulk Translation call, but just returns an estimated cost.
     def getTranslationQuote(params = {})
-      determineTranslationCost(params = {})
+      determineTranslationCost(params)
     end
 
     # Post a comment for a translator or Gengo on a job.
