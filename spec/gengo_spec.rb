@@ -56,7 +56,7 @@ describe Gengo do
             :getTranslationJobs,
             :getTranslationJobBatch,
             :getTranslationOrderJobs,
-            :determineTranslationCost,
+            :getTranslationQuote,
             :postTranslationJobComment,
             :getTranslationJobComments,
             :getTranslationJobFeedback,

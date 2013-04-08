@@ -306,12 +306,16 @@ module Gengo
     # Mirrors the bulk Translation call, but just returns an estimated cost.
     def determineTranslationCost(params = {})
       is_upload = params.delete(:is_upload)
-
       if is_upload
         self.upload_to_gengo('translate/service/quote/file', params)
       else
         self.send_to_gengo('translate/service/quote', params)
       end
+    end
+
+    # Mirrors the bulk Translation call, but just returns an estimated cost.
+    def getTranslationQuote(params = {})
+      determineTranslationCost(params)
     end
 
     # Post a comment for a translator or Gengo on a job.
