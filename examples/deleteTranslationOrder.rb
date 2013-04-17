@@ -5,8 +5,8 @@ require 'gengo'
 # print out response JSON.
 
 gengo = Gengo::API.new({
-    :public_key => 'your_public_key',
-    :private_key => 'your_private_key',
+    :public_key => '}vKzwc7Y{=JIR@zvMFC]7eRP@P3dtxAPT3cEAChfLILGa21v5~AK=Fq10e8v3hR{',
+    :private_key => 'dLkKLyaD6$h43RfcbAuRye4x4$Q6p$zso2C7Vte}gdlRw5rANjd3--jG31utyZFl',
     :sandbox => true
 })
 
