@@ -242,7 +242,6 @@ module Gengo
     # Options:
     # <tt>None</tt> - N/A
     def getAccountBalance(params = {})
-      # self.get_from_gengo('account/preferred_translators', params)
       self.get_from_gengo('account/balance', params)
     end
 
