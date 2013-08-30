@@ -81,8 +81,6 @@ module Gengo
         'User-Agent' => @opts[:user_agent]
       }
 
-      puts "uri: #{uri}"
-
       if is_delete
         req = Net::HTTP::Delete.new(uri, headers)
       else
@@ -94,13 +92,9 @@ module Gengo
         http.set_debug_output($stdout)
       end
       http.read_timeout = 5*60
-      puts "req: #{req}"
       resp = http.request(req)
-      puts "resp: #{resp}"
-      puts "resp.body: #{resp.body}"
 
       if is_download_file.nil?
-        puts resp.body
         json = JSON.parse(resp.body)
         if json['opstat'] != 'ok'
           raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
