@@ -239,6 +239,14 @@ module Gengo
       self.get_from_gengo('account/balance', params)
     end
 
+    # Returns an array of preferred translators for the current account by language pair. No args required!
+    #
+    # Options:
+    # <tt>None</tt> - N/A
+    def getAccountPreferredTranslators(params = {})
+      self.get_from_gengo('account/preferred_translators', params)
+    end
+
     # Much like the above, but takes a hash titled "jobs" that is multiple jobs, each with their own unique key.
     #
     # Options:

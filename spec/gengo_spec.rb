@@ -49,6 +49,7 @@ describe Gengo do
         [
             :getAccountStats,
             :getAccountBalance,
+            :getAccountPreferredTranslators,
             :postTranslationJobs,
             :updateTranslationJob,
             :updateTranslationJobs,
