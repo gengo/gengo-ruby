@@ -4,9 +4,10 @@ Gem::Specification.new do |gs|
     gs.authors = [
         "Matthew Romaine",
         "Shawn Smith",
-        "Issam Zeibak"
+        "Issam Zeibak",
+        "Alexander Lidé"
     ]
-    gs.date = "2013-08-30"
+    gs.date = "2013-09-03"
     gs.summary = "A library for interfacing with the Gengo Translation API."
     gs.description = "Gengo is a service that offers various translation APIs, both machine and high quality human-sourced. The Gengo gem lets you interface with the Gengo REST API (http://developers.gengo.com/).Note: previous version of this library can be found at https://rubygems.org/gems/mygengo. All further updates will be made here."
     gs.email = "api@gengo.com"
