@@ -365,7 +365,7 @@ module Gengo
     # <tt>id</tt> - The ID of the translation job you're getting revisions from.
     # <tt>rev_id</tt> - The ID of the revision you're looking up.
     def getTranslationJobRevision(params = {})
-      self.get_from_gengo('translate/job/:id/revisions/:revision_id'.gsub(':id', params.delete(:id).to_s).gsub(':revision_id', params.delete(:rev_id).to_s), params)
+      self.get_from_gengo('translate/job/:id/revision/:revision_id'.gsub(':id', params.delete(:id).to_s).gsub(':revision_id', params.delete(:rev_id).to_s), params)
     end
 
     # Returns a preview image for a job.
