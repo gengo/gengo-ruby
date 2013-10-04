@@ -300,13 +300,6 @@ module Gengo
     # Pulls a group of jobs that were previously submitted together.
     #
     # <tt>id</tt> - Required, the ID of a job that you want the batch/group of.
-    def getTranslationJobBatch(params = {})
-      self.get_from_gengo('translate/jobs/group/:group_id'.gsub(':group_id', params.delete(:group_id).to_s), params)
-    end
-
-    # Pulls a group of jobs that were previously submitted together.
-    #
-    # <tt>id</tt> - Required, the ID of a job that you want the batch/group of.
     def getTranslationOrderJobs(params = {})
       self.get_from_gengo('translate/order/:order_id'.gsub(':order_id', params.delete(:order_id).to_s), params)
     end
