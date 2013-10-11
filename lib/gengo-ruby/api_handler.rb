@@ -361,15 +361,6 @@ module Gengo
       self.get_from_gengo('translate/job/:id/revision/:revision_id'.gsub(':id', params.delete(:id).to_s).gsub(':revision_id', params.delete(:rev_id).to_s), params)
     end
 
-    # Returns a preview image for a job.
-    #
-    # Options:
-    # <tt>id</tt> - The ID of the job you want a preview image of.
-    def getTranslationJobPreviewImage(params = {})
-      params[:is_download] = true
-      self.get_from_gengo('translate/job/:id/preview'.gsub(':id', params.delete(:id).to_s), params)
-    end
-
     # Deletes an order, cancelling all available jobs.
     #
     # This method is EXPERIMENTAL
