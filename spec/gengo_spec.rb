@@ -62,7 +62,6 @@ describe Gengo do
             :getTranslationJobFeedback,
             :getTranslationJobRevisions,
             :getTranslationJobRevision,
-            :getTranslationJobPreviewImage,
             :deleteTranslationJob,
             :deleteTranslationJobs,
             :deleteTranslationOrder,
