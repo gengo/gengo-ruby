@@ -5,9 +5,9 @@ require 'gengo'
 # print out response JSON.
 
 gengo = Gengo::API.new({
-    :public_key => '',
-    :private_key => '',
-    :sandbox => true
+  :public_key => '',
+  :private_key => '',
+  :sandbox => true
 })
 
 puts gengo.deleteTranslationJob({:id => 64462})
