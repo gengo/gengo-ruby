@@ -2,9 +2,9 @@
 require 'gengo'
 
 gengo = Gengo::API.new({
-	:public_key => '',
-	:private_key => '',
-	:sandbox => true,
+  :public_key => '',
+  :private_key => '',
+  :sandbox => true,
 })
 
 # Return the number of credits left on your account.
