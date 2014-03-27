@@ -1,3 +1,4 @@
+# encoding: UTF-8
 Gem::Specification.new do |gs|
     gs.name = "gengo"
     gs.version = "0.0.5"
