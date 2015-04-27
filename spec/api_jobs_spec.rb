@@ -6,19 +6,10 @@
 
 require 'spec_helper'
 require 'gengo'
+require 'client_context'
 
-describe Gengo do
-
-  before(:all) do
-
-    @gengo_client = Gengo::API.new({
-          :public_key => ENV['GENGO_PUBKEY'],
-          :private_key => ENV['GENGO_PRIVKEY'],
-          :debug => ENV['DEBUG'] == 'true',
-          :sandbox => true
-    })
-
-  end
+describe Gengo::API do
+  include_context 'client spec'
 
   describe "postTranslationJobs response" do
     it "should have opstat OK and have order_id in response" do
