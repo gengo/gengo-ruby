@@ -1,6 +1,6 @@
 # encoding: UTF-8
 
-require_relative 'lib/gengo-ruby/version'
+require File.join(File.dirname(__FILE__), 'lib/gengo-ruby/version')
 
 Gem::Specification.new do |gs|
     gs.name = "gengo"
@@ -9,7 +9,7 @@ Gem::Specification.new do |gs|
         "Matthew Romaine",
         "Shawn Smith",
         "Issam Zeibak",
-        "Alexander Lidé"
+        "Alexander Lidé",
     ]
     gs.date = "2015-04-27"
     gs.summary = "A library for interfacing with the Gengo Translation API."
