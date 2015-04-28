@@ -8,6 +8,11 @@ module Gengo
       @opstat = opstat
       @code = code
       @msg = msg
+      super(msg)
+    end
+
+    def inspect
+      "Gengo::Exception(opstat=%s, code=%d, msg=%s)" % [opstat, code, msg]
     end
   end
 end
