@@ -337,7 +337,8 @@ module Gengo
     #
     # == Required keyword parameters
     # <tt>order_id</tt> - Required, the ID of a job that you want the batch/group of.
-    def getTranslationOrderJobs(order_id: nil)
+    def getTranslationOrderJobs(params = {})
+      order_id = params[:order_id]
       raise ArgumentError, 'order_id is a required parameter' unless order_id
       jobs_in_order(order_id)
     end
