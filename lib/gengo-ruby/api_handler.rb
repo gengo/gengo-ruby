@@ -30,7 +30,7 @@ module Gengo
         :private_key => '',
         :api_version => '2',
         :sandbox => false,
-        :user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; http://gengo.com/;",
+        :user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; Ruby Version #{RUBY_DESCRIPTION}; http://gengo.com/;",
         :debug => false,
       }.merge(opts)
 
