@@ -94,18 +94,23 @@ module Gengo
       http.read_timeout = 5*60
       resp = http.request(req)
 
-      if is_download_file.nil?
-        json = JSON.parse(resp.body)
-        if json['opstat'] != 'ok'
-          raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
-        end
+      return resp.body if is_download_file
 
-        # Return it if there are no problems, nice...
-        return json
-      else
-        return resp.body
+      begin
+        json = JSON.parse(resp.body)
+      rescue => e
+        # TODO(yugui) Log the original error
+        raise Gengo::Exception.new('error', resp.code.to_i, resp.body) unless resp.kind_of?(Net::HTTPSuccess)
+
+        # It should be very unlikely, but resp.body can be invalid as a JSON in theory even though the status is successful.
+        # In this case, raise an exception to report that unexpected status.
+        raise Gengo::Exception.new('error', 500, 'unexpected format of server response. Report it to Gengo if this exception repeatedly happens')
       end
 
+      raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg']) unless json['opstat'] == 'ok'
+
+      # Return it if there are no problems, nice...
+      return json
     end
 
     # The "POST" method; handles shuttling up encoded job data to Gengo
@@ -283,25 +288,64 @@ module Gengo
       self.get_from_gengo('translate/job/:id'.gsub(':id', params.delete(:id).to_s), params)
     end
 
-    # Pulls down a list of recently submitted jobs, allows some filters.
+    # Fetches a list of recent jobs you made.
     #
-    # <tt>status</tt> - Optional. "unpaid", "available", "pending", "reviewable", "approved", "rejected", or "canceled".
-    # <tt>timestamp_after</tt> - Optional. Epoch timestamp from which to filter submitted jobs.
-    # <tt>count</tt> - Optional. Defaults to 10.
+    # @deprecated Use {#jobs} or {#query_jobs} instead.
+    #
+    # == Keyword Parameters
+    # <tt>ids</tt>::
+    #   Optional. An array of job IDs to be fetched.
+    #   Other parameters are ignored if you specify this parameter.
+    # <tt>status</tt>::
+    #   Optional. "unpaid", "available", "pending", "reviewable", "approved", "rejected", or "canceled".
+    # <tt>timestamp_after</tt>::
+    #   Optional. Epoch timestamp from which to filter submitted jobs.
+    # <tt>count</tt>::
+    #   Optional. Defaults to 10.
     def getTranslationJobs(params = {})
-      if params[:ids] and params[:ids].kind_of?(Array)
-        params[:ids] = params[:ids].map { |i| i.to_s() }.join(',')
-        self.get_from_gengo('translate/jobs/:ids'.gsub(':ids', params.delete(:ids)))
+      if params[:ids].respond_to?(:each)
+        jobs(params.delete(:ids))
       else
-        self.get_from_gengo('translate/jobs', params)
+        query_jobs(params)
       end
     end
 
-    # Pulls a group of jobs that were previously submitted together.
+    # Fetchs a set of recent jobs whose IDs are the given ones.
+    # @param ids [[Integer|String]] An array of job IDs to be fetched
+    def jobs(ids)
+      get_from_gengo('translate/jobs/%s' % ids.join(','))
+    end
+
+    # Fetchs a set of recent jobs you made.
+    # You can apply filters with the following keyword parameters.
     #
-    # <tt>id</tt> - Required, the ID of a job that you want the batch/group of.
+    # == Keyword Parameters
+    # <tt>status</tt>::
+    #   Optional. Fetches only jobs in this status.
+    #   Must be "unpaid", "available", "pending", "reviewable", "approved", "rejected", or "canceled".
+    # <tt>timestamp_after</tt>::
+    #   Optional. Epoch timestamp from which to filter submitted jobs.
+    # <tt>count</tt>::
+    #   Optional. The maximum number of jobs to be returned. Defaults to 10.
+    def query_jobs(params = {})
+      get_from_gengo('translate/jobs', params)
+    end
+
+    # Fetches a set of jobs in the order you made.
+    #
+    # @deprecated Use {#jobs_in_order} instead.
+    #
+    # == Required keyword parameters
+    # <tt>order_id</tt> - Required, the ID of a job that you want the batch/group of.
     def getTranslationOrderJobs(params = {})
-      self.get_from_gengo('translate/order/:order_id'.gsub(':order_id', params.delete(:order_id).to_s), params)
+      order_id = params[:order_id]
+      raise ArgumentError, 'order_id is a required parameter' unless order_id
+      jobs_in_order(order_id)
+    end
+
+    # Fetches a set of jobs in the order you made.
+    def jobs_in_order(id)
+      self.get_from_gengo("translate/order/#{id}")
     end
 
     # Mirrors the bulk Translation call, but just returns an estimated cost.

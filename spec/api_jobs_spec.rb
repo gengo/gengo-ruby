@@ -48,6 +48,18 @@ describe Gengo::API do
     end
   end
 
+  describe "#jobs_in_order" do
+    it "should have opstat OK and jobs_available" do
+      resp = @gengo_client.jobs_in_order($order_id)
+      resp.should be_an_instance_of(Hash)
+      resp['opstat'].should eq('ok')
+      response_body = resp['response']
+      $created_job_id = response_body['order']['jobs_available'][0]
+      $created_job_id.should be_an_instance_of(String)
+      $created_job_id.to_i.should be > 0
+    end
+  end
+
   describe "getTranslationJob reponse" do
     it "should have opstat OK and correct body_src" do
       resp = @gengo_client.getTranslationJob({:id => $created_job_id})
