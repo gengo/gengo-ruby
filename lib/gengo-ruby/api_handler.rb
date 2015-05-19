@@ -157,19 +157,18 @@ module Gengo
       end
 
       resp = http.request(request)
+      resp.error! unless resp.kind_of?(Net::HTTPSuccess)
 
-      case resp
-      when Net::HTTPSuccess, Net::HTTPRedirection
-        json = JSON.parse(resp.body)
+      json = JSON.parse(resp.body)
+      return json if json['opstat'] == 'ok'
 
-        if json['opstat'] != 'ok'
-          raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
-        end
-
-        # Return it if there are no problems, nice...
-        json
-      else
-        resp.error!
+      case
+      when json['err']['code']
+        raise Gengo::Exception.new(json['opstat'], json['err']['code'].to_i, json['err']['msg'])
+      when json['err'].respond_to?(:each)
+        # Ad-hock care of bulk operations. To be done in a higher-layer in future.  [#93504182]
+        err = json['err'].map {|key, value| value.respond_to?(:first) ? value.first : value }
+        raise Gengo::Exception.new(json['opstat'], err.first['code'], err.map{|e| e['msg']}.join(';'))
       end
     end
 
