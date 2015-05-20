@@ -25,6 +25,7 @@ Gem::Specification.new do |gs|
     gs.add_dependency('mime-types')
     gs.add_development_dependency 'rspec', '~> 2.7'
     gs.add_development_dependency 'rack-test'
+    gs.add_development_dependency 'rake'
     gs.add_development_dependency 'simplecov'
     gs.add_development_dependency 'webmock'
 end
