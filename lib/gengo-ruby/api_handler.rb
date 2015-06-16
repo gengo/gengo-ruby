@@ -36,7 +36,7 @@ module Gengo
 
       # Let's go ahead and separate these out, for clarity...
       @debug = @opts[:debug]
-      @api_host = (@opts[:sandbox] == true ? Gengo::Config::SANDBOX_API_HOST : Gengo::Config::API_HOST)
+      @api_host = (@opts[:sandbox] ? Gengo::Config::SANDBOX_API_HOST : Gengo::Config::API_HOST)
 
       # More of a public "check this" kind of object.
       @client_info = {"VERSION" => Gengo::Config::VERSION}
