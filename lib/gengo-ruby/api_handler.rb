@@ -272,11 +272,11 @@ module Gengo
     # Updates a group of already submitted jobs.
     #
     # Options:
-    # <tt>jobs</tt> - An Array of job objects to update (job objects or ids)
+    # <tt>job_ids</tt> - An Array of job objects to update (job objects or ids)
     # <tt>action</tt> - A String describing the update to this job. "approved", "rejected", etc - see Gengo docs.
     def updateTranslationJobs(params = {})
       params[:is_put] = true
-      self.send_to_gengo('translate/jobs', {:jobs => params[:jobs], :action => params[:action]})
+      self.send_to_gengo('translate/jobs', params)
     end
 
     # Given an ID, pulls down information concerning that job from Gengo.
