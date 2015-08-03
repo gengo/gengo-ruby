@@ -415,6 +415,23 @@ module Gengo
       self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
     end
 
+    # Get all comments (the history) from a given order.
+    #
+    # Options:
+    # <tt>id</tt> - The ID of the order to get comments for.
+    def getTranslationOrderComments(params = {})
+      self.get_from_gengo('translate/order/:id/comments'.gsub(':id', params.delete(:id).to_s), params)
+    end
+
+    # Post a comment for a translator or Gengo on an order.
+    #
+    # Options:
+    # <tt>id</tt> - The ID of the order you're commenting on.
+    # <tt>comment</tt> - The comment to put on the order.
+    def postTranslationOrderComment(params = {})
+      self.send_to_gengo('translate/order/:id/comment'.gsub(':id', params.delete(:id).to_s), params)
+    end
+
     # Deletes a job.
     #
     # Options:
