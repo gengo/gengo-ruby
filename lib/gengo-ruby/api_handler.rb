@@ -351,7 +351,7 @@ module Gengo
     def determineTranslationCost(params = {})
       is_upload = params.delete(:is_upload)
       if is_upload
-        self.upload_to_gengo('translate/service/quote/file', params)
+        self.upload_to_gengo('translate/service/quote', params)
       else
         self.send_to_gengo('translate/service/quote', params)
       end
