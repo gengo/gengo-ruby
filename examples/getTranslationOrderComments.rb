@@ -9,4 +9,4 @@ gengo = Gengo::API.new(
   sandbox: true,
 )
 
-puts gengo.getTranslationOrderComments(id: 42)
+puts gengo.get_translation_order_comments(42)
