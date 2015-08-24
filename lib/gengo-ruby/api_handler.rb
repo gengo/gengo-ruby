@@ -266,7 +266,8 @@ module Gengo
     # <tt>action</tt> - A hash describing the update to this job. See the examples for further documentation.
     def updateTranslationJob(params = {})
       params[:is_put] = true
-      self.send_to_gengo('translate/job/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.send_to_gengo("translate/job/#{id}", params)
     end
 
     # Updates a group of already submitted jobs.
@@ -284,7 +285,8 @@ module Gengo
     # <tt>id</tt> - The ID of a job to check.
     # <tt>pre_mt</tt> - Optional, get a machine translation if the human translation is not done.
     def getTranslationJob(params = {})
-      self.get_from_gengo('translate/job/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/job/#{id}", params)
     end
 
     # Fetches a list of recent jobs you made.
@@ -368,7 +370,8 @@ module Gengo
     # <tt>id</tt> - The ID of the job you're commenting on.
     # <tt>comment</tt> - The comment to put on the job.
     def postTranslationJobComment(params = {})
-      self.send_to_gengo('translate/job/:id/comment'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.send_to_gengo("translate/job/#{id}/comment", params)
     end
 
     # Get all comments (the history) from a given job.
@@ -376,7 +379,8 @@ module Gengo
     # Options:
     # <tt>id</tt> - The ID of the job to get comments for.
     def getTranslationJobComments(params = {})
-      self.get_from_gengo('translate/job/:id/comments'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/job/#{id}/comments", params)
     end
 
     # Returns the feedback you've submitted for a given job.
@@ -384,7 +388,8 @@ module Gengo
     # Options:
     # <tt>id</tt> - The ID of the translation job you're retrieving comments from.
     def getTranslationJobFeedback(params = {})
-      self.get_from_gengo('translate/job/:id/feedback'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/job/#{id}/feedback", params)
     end
 
     # Gets a list of the revision resources for a job. Revisions are created each time a translator updates the text.
@@ -392,7 +397,8 @@ module Gengo
     # Options:
     # <tt>id</tt> - The ID of the translation job you're getting revisions from.
     def getTranslationJobRevisions(params = {})
-      self.get_from_gengo('translate/job/:id/revisions'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/job/#{id}/revisions", params)
     end
 
     # Get a specific revision to a job.
@@ -401,7 +407,9 @@ module Gengo
     # <tt>id</tt> - The ID of the translation job you're getting revisions from.
     # <tt>rev_id</tt> - The ID of the revision you're looking up.
     def getTranslationJobRevision(params = {})
-      self.get_from_gengo('translate/job/:id/revision/:revision_id'.gsub(':id', params.delete(:id).to_s).gsub(':revision_id', params.delete(:rev_id).to_s), params)
+      id = params.delete(:id).to_s
+      revision_id = params.delete(:rev_id).to_s
+      self.get_from_gengo("translate/job/#{id}/revision/#{revision_id}", params)
     end
 
     # Deletes an order, cancelling all available jobs.
@@ -412,7 +420,8 @@ module Gengo
     # <tt>id</tt> - The ID of the order you want to delete.
     def deleteTranslationOrder(params = {})
       params[:is_delete] = true
-      self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/order/#{id}", params)
     end
 
     # Get all comments (the history) from a given order.
@@ -429,7 +438,8 @@ module Gengo
     # <tt>id</tt> - The ID of the order you're commenting on.
     # <tt>comment</tt> - The comment to put on the order.
     def post_translation_order_comment(params = {})
-      send_to_gengo('translate/order/:id/comment'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      send_to_gengo("translate/order/#{id}/comment", params)
     end
 
     # Deletes a job.
@@ -438,7 +448,8 @@ module Gengo
     # <tt>id</tt> - The ID of the job you want to delete.
     def deleteTranslationJob(params = {})
       params[:is_delete] = true
-      self.get_from_gengo('translate/job/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/job/#{id}", params)
     end
 
     # Deletes multiple jobs.
@@ -475,13 +486,15 @@ module Gengo
 
     # Gets one glossary that belongs to the authenticated user
     def getGlossary(params = {})
-      self.get_from_gengo('translate/glossary/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/glossary/#{id}", params)
     end
 
     # Downloads one glossary that belongs to the authenticated user
     def getGlossaryFile(params = {})
       params[:is_download] = true
-      self.get_from_gengo('translate/glossary/download/:id'.gsub(':id', params.delete(:id).to_s), params)
+      id = params.delete(:id).to_s
+      self.get_from_gengo("translate/glossary/download/#{id}", params)
     end
   end
 
