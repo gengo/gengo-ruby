@@ -272,11 +272,11 @@ module Gengo
     # Updates a group of already submitted jobs.
     #
     # Options:
-    # <tt>jobs</tt> - An Array of job objects to update (job objects or ids)
+    # <tt>job_ids</tt> - An Array of job objects to update (job objects or ids)
     # <tt>action</tt> - A String describing the update to this job. "approved", "rejected", etc - see Gengo docs.
     def updateTranslationJobs(params = {})
       params[:is_put] = true
-      self.send_to_gengo('translate/jobs', {:jobs => params[:jobs], :action => params[:action]})
+      self.send_to_gengo('translate/jobs', params)
     end
 
     # Given an ID, pulls down information concerning that job from Gengo.
@@ -351,7 +351,7 @@ module Gengo
     def determineTranslationCost(params = {})
       is_upload = params.delete(:is_upload)
       if is_upload
-        self.upload_to_gengo('translate/service/quote/file', params)
+        self.upload_to_gengo('translate/service/quote', params)
       else
         self.send_to_gengo('translate/service/quote', params)
       end
@@ -413,6 +413,23 @@ module Gengo
     def deleteTranslationOrder(params = {})
       params[:is_delete] = true
       self.get_from_gengo('translate/order/:id'.gsub(':id', params.delete(:id).to_s), params)
+    end
+
+    # Get all comments (the history) from a given order.
+    #
+    # Requirements:
+    # <tt>order_id</tt> - The ID of the order to get comments for.
+    def get_translation_order_comments(order_id)
+      get_from_gengo("translate/order/#{order_id}/comments")
+    end
+
+    # Post a comment for a translator or Gengo on an order.
+    #
+    # Options:
+    # <tt>id</tt> - The ID of the order you're commenting on.
+    # <tt>comment</tt> - The comment to put on the order.
+    def post_translation_order_comment(params = {})
+      send_to_gengo('translate/order/:id/comment'.gsub(':id', params.delete(:id).to_s), params)
     end
 
     # Deletes a job.
