@@ -40,7 +40,8 @@ describe Gengo::API do
 
     it "should have a credits field as a string" do
       credits = @useful_response_body['credits']
-      credits.should be_an_instance_of(String)
+      credits.should be_a(Numeric)
+      credits.should be >= 0.0
     end
 
     it "should have a currency field as a string" do
