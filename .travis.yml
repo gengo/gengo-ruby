@@ -6,3 +6,5 @@ rvm:
 env:
   global:
     - GENGO_PUBKEY='pubkeyfortests' GENGO_PRIVKEY='privatekeyfortestuserthatcontainsonlyletters'
+before_install:
+  - gem update bundler

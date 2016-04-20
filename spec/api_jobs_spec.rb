@@ -30,8 +30,8 @@ describe Gengo::API do
       resp['opstat'].should eq('ok')
       response_body = resp['response']
       $order_id = response_body['order_id']
-      $order_id.should be_an_instance_of(String)
-      $order_id.to_i.should be > 0
+      $order_id.should be_an(Integer)
+      $order_id.should be > 0
     end
   end
 
@@ -68,7 +68,7 @@ describe Gengo::API do
       body_src = response_body['job']['body_src']
       body_src.should eq('hello, world')
       order_id = response_body['job']['order_id']
-      order_id.should eq($order_id)
+      order_id.to_i.should eq($order_id)
     end
   end
 
@@ -135,8 +135,8 @@ describe Gengo::API do
       resp = @gengo_client.postTranslationJobs({:jobs => multiple_jobs})
       resp['opstat'].should eq('ok')
       response_body = resp['response']
-      response_body['order_id'].should be_an_instance_of(String)
-      response_body['order_id'].to_i.should be > 0
+      response_body['order_id'].should be_an(Integer)
+      response_body['order_id'].should be > 0
       response_body['job_count'].should eq(2)
       response_body['credits_used'].should be_an_instance_of(String)
       response_body['credits_used'].to_f.should be > 0
