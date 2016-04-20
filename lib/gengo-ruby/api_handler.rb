@@ -283,7 +283,6 @@ module Gengo
     # Given an ID, pulls down information concerning that job from Gengo.
     #
     # <tt>id</tt> - The ID of a job to check.
-    # <tt>pre_mt</tt> - Optional, get a machine translation if the human translation is not done.
     def getTranslationJob(params = {})
       id = params.delete(:id).to_s
       self.get_from_gengo("translate/job/#{id}", params)
