@@ -28,6 +28,7 @@ module Gengo
       @opts = {
         :public_key => '',
         :private_key => '',
+        :access_token => '',
         :api_version => '2',
         :sandbox => false,
         :user_agent => "Gengo Ruby Library; Version #{Gengo::Config::VERSION}; Ruby Version #{RUBY_DESCRIPTION}; http://gengo.com/;",
@@ -52,6 +53,14 @@ module Gengo
       OpenSSL::HMAC.hexdigest 'sha1', @opts[:private_key], ts
     end
 
+    def auth_by_access_token?
+      @opts[:access_token] != ''
+    end
+
+    def access_token_bearer
+      "Bearer #{@opts[:access_token]}"
+    end
+
     # The "GET" method; handles requesting basic data sets from Gengo and converting
     # the response to a Ruby hash/object.
     #
@@ -72,14 +81,19 @@ module Gengo
       query[:api_key] = @opts[:public_key]
       query[:ts] = Time.now.gmtime.to_i.to_s
 
-      endpoint << "?api_sig=" + signature_of(query[:ts])
-      endpoint << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
-
-      uri = "/v#{@opts[:api_version]}/" + endpoint
       headers = {
         'Accept' => 'application/json',
         'User-Agent' => @opts[:user_agent]
       }
+
+      if auth_by_access_token?
+        headers.merge!('Authorization' => access_token_bearer)
+      end
+
+      endpoint << "?api_sig=" + signature_of(query[:ts])
+      endpoint << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
+
+      uri = "/v#{@opts[:api_version]}/" + endpoint
 
       if is_delete
         req = Net::HTTP::Delete.new(uri, headers)
@@ -144,6 +158,10 @@ module Gengo
       request.add_field('Accept', 'application/json')
       request.add_field('User-Agent', @opts[:user_agent])
 
+      if auth_by_access_token?
+        request.add_field('Authorization', access_token_bearer)
+      end
+
       request.content_type = 'application/x-www-form-urlencoded'
       request.body = {
         "api_sig" => signature_of(query[:ts]),
@@ -204,7 +222,12 @@ module Gengo
         "ts" => call_timestamp
       })
 
-      request = Net::HTTP::Post::Multipart.new(url.path, the_hash, {'Accept' => 'application/json', 'User-Agent' => @opts[:user_agent] })
+      headers = {'Accept' => 'application/json', 'User-Agent' => @opts[:user_agent] }
+      if auth_by_access_token?
+        headers.merge!('Authorization' => access_token_bearer)
+      end
+
+      request = Net::HTTP::Post::Multipart.new(url.path, the_hash, headers)
 
       if @debug
         http.set_debug_output($stdout)
@@ -225,6 +248,14 @@ module Gengo
       else
         resp.error!
       end
+    end
+
+    # Returns a Ruby-hash of the current account. No arguments required!
+    #
+    # Options:
+    # <tt>None</tt> - N/A
+    def getAccountMe(params = {})
+      self.get_from_gengo('account/me', params)
     end
 
     # Returns a Ruby-hash of the stats for the current account. No arguments required!
