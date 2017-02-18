@@ -1,10 +1,15 @@
 language: ruby
 rvm:
-  - '2.0.0'
-  - '2.1'
-  - '2.2'
+- 2.0.0
+- '2.1'
+- '2.2'
+cache:
+  bundler: true
 env:
   global:
-    - GENGO_PUBKEY='pubkeyfortests' GENGO_PRIVKEY='privatekeyfortestuserthatcontainsonlyletters'
+  # GENGO_PUBKEY
+  - secure: FI8zD+DvdLAXqsEXf3jm9ne3EGGXor26sOXkNSy7fFsKyqYsapYA2X2IDsmFZEVCE+G285pEdR70wfMiVasVlL3ouNHW4tO3XMeHBj3M/60lV+XUiOWPs0qBB1lBp7ehB2DZVi/IoHAyxX1GKhQX1BRW6ER1QgNZ3BqiJRCoVyM=
+  # GENGO_PRIVKEY
+  - secure: Rusmq8geMSgUrZHYfvBx9/uZdNoOFjEA7kOL3H3p88Seq1PhdUrlR04AuzzDT2hL5KsmNim+RAHjHAC3GtvyjrEC81JyK6uQeLpaEfu66gOzuJYJImeLkZ3l0YwaTIVTD+iuOzo4jzTxp4eBCv8ltu+Y5C03L+xX/TDIact+o4g=
 before_install:
-  - gem update bundler
+- gem update bundler
