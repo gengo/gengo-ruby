@@ -101,7 +101,8 @@ module Gengo
         req = Net::HTTP::Get.new(uri, headers)
       end
 
-      http = Net::HTTP.start(@api_host, 80)
+      url = URI.parse("https://#{@api_host}")
+      http = Net::HTTP.start(url.host, url.port, use_ssl: true)
       if @debug
         http.set_debug_output($stdout)
       end
@@ -146,9 +147,10 @@ module Gengo
         :ts => Time.now.gmtime.to_i.to_s
       }
 
-      url = URI.parse("http://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
+      url = URI.parse("https://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
       http = Net::HTTP.new(url.host, url.port)
       http.read_timeout = 5*60
+      http.use_ssl = true
       if is_put
         request = Net::HTTP::Put.new(url.path)
       else
@@ -208,10 +210,11 @@ module Gengo
         hash_thus_far
       end
 
-      url = URI.parse("http://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
+      url = URI.parse("https://#{@api_host}/v#{@opts[:api_version]}/#{endpoint}")
 
       http = Net::HTTP.new(url.host, url.port)
       http.read_timeout = 5*60
+      http.use_ssl = true
 
       call_timestamp = Time.now.gmtime.to_i.to_s
 
