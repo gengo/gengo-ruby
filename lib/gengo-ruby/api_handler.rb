@@ -43,6 +43,23 @@ module Gengo
       @client_info = {"VERSION" => Gengo::Config::VERSION}
     end
 
+    # Text representation of the client, masking private_key and token
+    #
+    # @return [String]
+    def inspect
+      inspected = super
+
+      # Only show last 4 of access private_key and token
+      if @private_key
+        inspected = inspected.sub!(@private_keykey, only_show_last_four_chars(@private_key))
+      end
+      if @access_token
+        inspected = inspected.sub!(@access_token, only_show_last_four_chars(@access_token))
+      end
+
+      inspected
+    end
+
     # Use CGI escape to escape a string
     def urlencode(string)
       CGI::escape(string)
@@ -528,6 +545,12 @@ module Gengo
       params[:is_download] = true
       id = params.delete(:id).to_s
       self.get_from_gengo("translate/glossary/download/#{id}", params)
+    end
+
+    private
+
+    def only_show_last_four_chars(string)
+      "#{'*' * (string.size - 4)}#{string[-4..-1]}"
     end
   end
 
