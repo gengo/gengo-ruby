@@ -107,24 +107,11 @@ module Gengo
         headers.merge!('Authorization' => access_token_bearer)
       end
 
-      endpoint << "?api_sig=" + signature_of(query[:ts])
-      endpoint << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
+      options = "?api_sig=" + signature_of(query[:ts])
+      options << '&' + query.map { |k, v| "#{k}=#{urlencode(v)}" }.join('&')
 
-      uri = "/v#{@opts[:api_version]}/" + endpoint
-
-      if is_delete
-        req = Net::HTTP::Delete.new(uri, headers)
-      else
-        req = Net::HTTP::Get.new(uri, headers)
-      end
-
-      url = URI.parse("https://#{@api_host}")
-      http = Net::HTTP.start(url.host, url.port, use_ssl: true)
-      if @debug
-        http.set_debug_output($stdout)
-      end
-      http.read_timeout = 5*60
-      resp = http.request(req)
+      url_str = "https://#{@api_host}/v#{@opts[:api_version]}/" + endpoint
+      resp = call_api(url_str, headers, is_delete, options)
 
       return resp.body if is_download_file
 
@@ -143,6 +130,34 @@ module Gengo
 
       # Return it if there are no problems, nice...
       return json
+    end
+
+    def call_api(url_str, headers, is_delete, options, limit = 10)
+      raise ArgumentError, 'HTTP redirect too deep' if limit == 0
+
+      url = URI.parse(url_str)
+      path = url.path + options
+
+      if is_delete
+        req = Net::HTTP::Delete.new(path, headers)
+      else
+        req = Net::HTTP::Get.new(path, headers)
+      end
+
+      http = Net::HTTP.start(url.host, url.port, use_ssl: true)
+      if @debug
+        http.set_debug_output($stdout)
+      end
+      http.read_timeout = 5*60
+      resp = http.request(req)
+
+      case resp
+      when Net::HTTPSuccess then resp
+      when Net::HTTPRedirection then
+        call_api(resp['location'], headers, is_delete, options, limit - 1)
+      else
+        resp.error!
+      end
     end
 
     # The "POST" method; handles shuttling up encoded job data to Gengo
