@@ -24,11 +24,11 @@ Gem::Specification.new do |gs|
     gs.add_dependency('multipart-post')
     gs.add_dependency('mime-types')
     gs.add_development_dependency 'rspec', '~> 3.5'
-    gs.add_development_dependency 'rack', '~> 1.6'
+    gs.add_development_dependency 'rack', '~> 2.1.4'
     gs.add_development_dependency 'rack-test'
     gs.add_development_dependency 'rake'
     gs.add_development_dependency 'simplecov'
-    gs.add_development_dependency 'webmock'
+    gs.add_development_dependency 'webmock', '~> 3.8'
 end
 
 # vim: set fileencoding=utf-8 :
