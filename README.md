@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/gengo/gengo-ruby.png)](http://travis-ci.org/gengo/gengo-ruby)
+[![Build Status](https://travis-ci.org/gengo/gengo-ruby.svg?branch=master)](https://travis-ci.org/gengo/gengo-ruby)
 
 Gengo Ruby Library (for the [Gengo API](http://gengo.com/api/))
 ======================================================================================================================================================
@@ -28,8 +28,6 @@ If you have questions or comments and would like to reach us directly, please fe
 developers!
 
 * Email: api [at] gengo dot com
-* Twitter: [@gengoit](https://twitter.com/gengoit)
-* IRC: [#gengo](irc://irc.freenode.net/gengo)
 
 If you come across any issues, please file them on the [Github project issue tracker](https://github.com/gengo/gengo-ruby/issues). Thanks!
 
